@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -21,10 +22,15 @@ import hotsdraftadviser_kmp.composeapp.generated.resources.*
 
 @Composable
 @Preview
-fun App() {
+fun App(
+    viewModel: MainViewModel = viewModel(
+        factory = mainViewModelFactory,
+    )
+) {
     MaterialTheme {
-        val viewModel = remember { MainActivityViewModel() }
         val showContent by viewModel.showContent.collectAsState()
+        val champData by viewModel.champData.collectAsState()
+
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -43,7 +49,9 @@ fun App() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
+                    if (champData.isNotEmpty()) {
+                        Text("Compose: ${champData.get(1).ChampName}")
+                    }
                 }
             }
         }

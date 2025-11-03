@@ -4,17 +4,25 @@ import com.example.hotsdraftadviser_kmp.enums.Difficulty
 import com.example.hotsdraftadviser_kmp.enums.GameOrigin
 import com.example.hotsdraftadviser_kmp.enums.RoleEnum
 import com.example.hotsdraftadviser_kmp.enums.TeamSide
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ChampData(
     var key: Int = 0,
+    @SerialName("ChampName")
     val ChampName: String,
+    @SerialName("ChampRole")
     val ChampRole: List<String>,
+    @SerialName("ChampRoleAlt")
     val ChampRoleAlt: List<RoleEnum>,
+    @SerialName("StrongAgainst")
     val StrongAgainst: List<StrongAgainstData>,
+    @SerialName("WeakAgainst")
     val WeakAgainst: List<WeakAgainstData>,
+    @SerialName("GoodTeamWith")
     val GoodTeamWith: List<GoodTeamWith>,
+    @SerialName("MapScore")
     val MapScore: List<MapScoreData>,
     val mapFloat: Float = 0f,
     val fitTeam: Int = 0,
