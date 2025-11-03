@@ -1,5 +1,6 @@
 package com.example.hotsdraftadviser_kmp
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
@@ -9,8 +10,10 @@ import com.example.hotsdraftadviser_kmp.enums.RoleEnum
 import com.example.hotsdraftadviser_kmp.enums.SortState
 import com.example.hotsdraftadviser_kmp.enums.TeamSide
 import hotsdraftadviser_kmp.composeapp.generated.resources.Res
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,10 +28,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlin.collections.emptyList
+import kotlin.collections.get
+import kotlin.text.get
+import kotlin.text.set
 
 class MainViewModel() : ViewModel() {
     private val _showContent = MutableStateFlow(true)
-    private val _champData = MutableStateFlow<List<ChampData>>(emptyList())
     private val _isDisclaymerShown = MutableStateFlow(false)
     private val _targetState = MutableStateFlow(true)
     private val _isTutorialShown = MutableStateFlow(false)
@@ -48,7 +53,7 @@ class MainViewModel() : ViewModel() {
     private var pickcounter: MutableMap<TeamSide, Int> =
         mutableMapOf(TeamSide.OWN to 0, TeamSide.THEIR to 0)
     val showContent: StateFlow<Boolean> = _showContent.asStateFlow()
-    val champData: StateFlow<List<ChampData>> = _champData.asStateFlow()
+    val champData: StateFlow<List<ChampData>> = _allChampsData.asStateFlow()
     val isDisclaymerShown: StateFlow<Boolean> = _isDisclaymerShown.asStateFlow()
     val isTutorialShown: StateFlow<Boolean> = _isTutorialShown.asStateFlow()
     val isListMode: StateFlow<Boolean> = _isListMode.asStateFlow()
@@ -149,6 +154,162 @@ class MainViewModel() : ViewModel() {
         loadJson()
     }
 
+    fun toggleDisclaymer() {
+        viewModelScope.launch {
+            _isDisclaymerShown.value = !_isDisclaymerShown.value
+        }
+    }
+
+    fun toggleListMode() {
+        _isListMode.value = !_isListMode.value
+    }
+
+    fun toggleStarRateMode() {
+        _isStarRatingMode.value = !_isStarRatingMode.value
+    }
+
+    fun toggleTutorial() {
+        _isTutorialShown.value = !_isTutorialShown.value
+    }
+
+    fun updateMapsSearchQuery(query: String) {
+        _filterMapsString.value = query
+    }
+
+    fun setChosenMapByName(name: String) {
+        viewModelScope.launch {
+            delay(550)
+            _choosenMap.value = name
+        }
+
+        _targetState.value = false
+    }
+
+    fun clearChoosenMap() {
+        _choosenMap.value = ""
+        _targetState.value = true
+    }
+
+    fun removePick(index: Int, teamSide: TeamSide) {
+        viewModelScope.launch {
+            val currentChampList = _allChampsData.value
+            val teamPicks = currentChampList.filter { it.isPicked && it.pickedBy == teamSide }
+
+            if (index >= 0 && index < teamPicks.size) {
+                val champToRemove = teamPicks[index]
+                val updatedChamp = champToRemove.copy(isPicked = false, pickedBy = TeamSide.NONE)
+
+                _allChampsData.value =
+                    _allChampsData.value.map { if (it.ChampName == updatedChamp.ChampName) updatedChamp else it }
+
+                if (teamPicks[index].ChampName == "Chogall") {
+                    pickcounter[teamSide] = pickcounter[teamSide]!! - 2
+                } else {
+                    pickcounter[teamSide] = pickcounter[teamSide]!! - 1
+                }
+
+            } else {
+                println(
+                    "ViewModel Ungültiger Index zum Entfernen des Picks: $index für Team: $teamSide"
+                )
+            }
+        }
+    }
+
+    fun updateChampSearchQuery(query: String) {
+        _filterChampString.value = query
+    }
+
+    fun toggleFavFilter() {
+        _favFilter.value = !_favFilter.value
+    }
+
+    fun setRoleFilter(role: RoleEnum?) {
+        if (role == null) {
+            _roleFilter.value = emptyList()
+        } else {
+            if (_roleFilter.value.contains(role)) {
+                _roleFilter.value = _roleFilter.value.filter { it -> it != role }
+            } else {
+                _roleFilter.value = _roleFilter.value + role
+            }
+        }
+    }
+
+    fun scrollList(listState: LazyListState, coroutineScope: CoroutineScope) {
+        coroutineScope.launch {
+            listState.animateScrollToItem(0)
+        }
+    }
+
+    fun pickChampForTeam(index: Int, teamSide: TeamSide) {
+        viewModelScope.launch {
+            val currentChampList = _distinctchoosableChampList.first()
+            val alreadyPicked = currentChampList.filter { it.isPicked && it.pickedBy == teamSide }
+            val isChogall = currentChampList[index].ChampName == "Chogall"
+            var teamCounter = pickcounter[teamSide] ?: 0
+
+            if (isChogall) {
+                if (teamCounter < maxPicks - 1) {
+                    pickcounter[teamSide] = teamCounter + 2
+                    val pickedChamp =
+                        currentChampList.find { it.ChampName == currentChampList[index].ChampName }
+                            ?.copy(isPicked = true, pickedBy = teamSide)
+                            ?: return@launch // Frühzeitiger Ausstieg, falls der Champ nicht gefunden wird
+                    _allChampsData.value =
+                        _allChampsData.value.map { if (it.ChampName == pickedChamp.ChampName) pickedChamp else it }
+                }
+            } else if (teamCounter < maxPicks) {
+                pickcounter[teamSide] = teamCounter + 1
+                val pickedChamp =
+                    currentChampList.find { it.ChampName == currentChampList[index].ChampName }
+                        ?.copy(isPicked = true, pickedBy = teamSide)
+                        ?: return@launch // Frühzeitiger Ausstieg, falls der Champ nicht gefunden wird
+                _allChampsData.value =
+                    _allChampsData.value.map { if (it.ChampName == pickedChamp.ChampName) pickedChamp else it }
+            }
+        }
+    }
+
+    fun setBansPerTeam(i: Int, teamSide: TeamSide) {
+        viewModelScope.launch {
+            val currentChampList = _distinctchoosableChampList.first()
+            val bannedChamp = currentChampList[i].copy(isPicked = true)
+            updateChampDataWithPickStatus(bannedChamp, true, teamSide)
+        }
+    }
+
+    fun toggleFavoriteStatus(championName: String) {
+        viewModelScope.launch {
+            //TODO when repo
+            //favoriteChampionsRepository.toggleFavoriteStatus(championName)
+            checkIfChampIsFavorite()
+        }
+    }
+
+    private suspend fun checkIfChampIsFavorite() {
+        _allChampsData.value = _allChampsData.value.map { champ ->
+            champ.copy(
+                //TODO when repo
+                //isAFavoriteChamp = favoriteChampionsRepository.isChampionFavorite(champ.ChampName)
+            )
+        }
+    }
+
+    private fun updateChampDataWithPickStatus(
+        champ: ChampData,
+        isPicked: Boolean,
+        teamSide: TeamSide
+    ) {
+        val currentChampData = _allChampsData.value.toMutableList()
+        val indexInAllChamps = currentChampData.indexOfFirst { it.ChampName == champ.ChampName }
+        if (indexInAllChamps != -1) {
+            currentChampData[indexInAllChamps] =
+                currentChampData[indexInAllChamps].copy(isPicked = isPicked)
+            _allChampsData.value = currentChampData.toList()
+        }
+    }
+
     private fun getPickedTheirTeamChamps(team: TeamSide): StateFlow<List<ChampData>> =
         _allChampsData.map { champs -> champs.filter { it.pickedBy == team } }.stateIn(
             scope = viewModelScope,
@@ -161,7 +322,7 @@ class MainViewModel() : ViewModel() {
             val readBytes = Res.readBytes("files/output.json")
             val jsonString = readBytes.decodeToString()
             val champData = Json.decodeFromString<List<ChampData>>(jsonString)
-            _champData.value = champData
+            _allChampsData.value = champData
         }
     }
 

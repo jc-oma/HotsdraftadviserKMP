@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ChampData(
-    var key: Int = 0,
+    var key: Int = nextKey(),
     @SerialName("ChampName")
     val ChampName: String,
     @SerialName("ChampRole")
@@ -37,14 +37,13 @@ data class ChampData(
     var localName: String? = null
 ) {
     companion object {
-        private val idCounter = 0
-    }
-
-    init {
-        if (this.key == 0) {
-            this.key = idCounter + 1
+        private var keyCounter = 0
+        private fun nextKey(): Int {
+            keyCounter += 1
+            return keyCounter
         }
     }
+
 }
 
 // Beispielhafte Instanz Ihrer ChampData-Klasse
@@ -81,7 +80,6 @@ val exampleChampDataSgtHammer = ChampData(
 )
 
 val exampleChampDataAbathur = ChampData(
-    key = 2,
     ChampName = "Abathur",
     ChampRole = listOf("support"),
     ChampRoleAlt = listOf(RoleEnum.support),
@@ -113,7 +111,6 @@ val exampleChampDataAbathur = ChampData(
 )
 
 val exampleChampDataAuriel = ChampData(
-    key = 2,
     ChampName = "Auriel",
     ChampRole = listOf("heal"),
     ChampRoleAlt = listOf(RoleEnum.heal),
