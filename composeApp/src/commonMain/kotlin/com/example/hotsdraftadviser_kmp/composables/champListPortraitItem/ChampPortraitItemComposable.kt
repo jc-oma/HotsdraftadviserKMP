@@ -43,6 +43,7 @@ import com.example.hotsdraftadviser_kmp.composables.getColorByHexString
 import com.example.hotsdraftadviser_kmp.composables.starRating.StarRatingComposable
 import com.example.hotsdraftadviser_kmp.dataclasses.ChampData
 import com.example.hotsdraftadviser_kmp.dataclasses.exampleChampDataSgtHammer
+import com.example.hotsdraftadviser_kmp.enums.PlatformType
 import hotsdraftadviser_kmp.composeapp.generated.resources.Res
 import hotsdraftadviser_kmp.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.DrawableResource
@@ -68,7 +69,7 @@ fun ChampPortraitItemComposable(
     maxOwnScore: Int,
     maxTheirScore: Int,
     isStarRating: Boolean,
-    isTablet: Boolean
+    platformType: PlatformType
 ) {
     val screenBackgroundColor = "150e35ff"
     val composeScreenBackgroundColor = getColorByHexString(screenBackgroundColor)
@@ -118,7 +119,7 @@ fun ChampPortraitItemComposable(
                     .clickable {print("Click on the Buttons next to the Champ")}
 
                 Image(
-                    modifier = if (isTablet) Modifier
+                    modifier = if (platformType == PlatformType.WEB) Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(4.dp))
                         //TODO
@@ -177,10 +178,10 @@ fun ChampPortraitItemComposable(
                         .fillMaxSize(),
                     contentAlignment = Alignment.BottomStart
                 ) {
-                    val spacerHeight = if (isTablet) 8.dp else 2.dp
-                    val spacerHeightbot = if (isTablet) 24.dp else 8.dp
+                    val spacerHeight = if (platformType == PlatformType.WEB) 8.dp else 2.dp
+                    val spacerHeightbot = if (platformType == PlatformType.WEB) 24.dp else 8.dp
                     Column() {
-                        val barHeight = if (isTablet) 20.dp else 10.dp
+                        val barHeight = if (platformType == PlatformType.WEB) 20.dp else 10.dp
                         //TODO colorResource(R.color.champ_evaluation_bar)
                         val barColor = Color.Blue
                         ChampEvaluationComposable(
@@ -358,6 +359,6 @@ private fun ChampPortraitComposablePreview() {
         maxOwnScore = 144,
         maxTheirScore = 75,
         isStarRating = false,
-        isTablet = true
+        platformType = PlatformType.ANDROID
     )
 }

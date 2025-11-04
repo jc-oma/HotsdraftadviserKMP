@@ -52,7 +52,8 @@ fun ChampListItemComposable(
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = chosableChamp.localName!!,
+            //TODO chosableChamp.localName!!
+            text = chosableChamp.ChampName,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

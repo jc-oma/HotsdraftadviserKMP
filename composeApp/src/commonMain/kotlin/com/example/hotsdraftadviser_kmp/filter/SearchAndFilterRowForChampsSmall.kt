@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.hotsdraftadviser_kmp.Utilitys.getResponsiveFontSize
 import com.example.hotsdraftadviser_kmp.composables.searchbar.ChampSearchBar
+import com.example.hotsdraftadviser_kmp.enums.PlatformType
 import com.example.hotsdraftadviser_kmp.enums.RoleEnum
 import hotsdraftadviser_kmp.composeapp.generated.resources.Res
 import hotsdraftadviser_kmp.composeapp.generated.resources.*
@@ -36,7 +37,7 @@ fun SearchAndFilterRowForChampsSmall(
     setRoleFilter: (RoleEnum?) -> Unit,
     updateChampSearchQuery: (String) -> Unit,
     toggleFavFilter: () -> Unit,
-    isTablet: Boolean
+    platformType: PlatformType
 ) {
     Column {
         Row(
@@ -57,7 +58,7 @@ fun SearchAndFilterRowForChampsSmall(
             val responsiveFontSize = getResponsiveFontSize()
 
             Row(modifier = Modifier.padding(top = imagePadding)) {
-                val modifier = if (isTablet) Modifier
+                val modifier = if (platformType == PlatformType.WEB) Modifier
                     .weight(0.5f)
                     .padding(start = imagePadding, end = imagePadding)
                     .height(48.dp)
@@ -66,7 +67,7 @@ fun SearchAndFilterRowForChampsSmall(
                         .weight(0.5f)
                         .padding(start = imagePadding, end = imagePadding)
 
-                val modifierIcon = if (isTablet) Modifier.fillMaxSize().padding(4.dp) else
+                val modifierIcon = if (platformType == PlatformType.WEB) Modifier.fillMaxSize().padding(4.dp) else
                     Modifier.size(FilterChipDefaults.IconSize)
 
                 FilterChip(
@@ -210,6 +211,6 @@ fun SearchAndFilterRowForChampsSmallPreview() {
         setRoleFilter = {},
         updateChampSearchQuery = {},
         toggleFavFilter = {},
-        isTablet = true
+        platformType = PlatformType.ANDROID
     )
 }

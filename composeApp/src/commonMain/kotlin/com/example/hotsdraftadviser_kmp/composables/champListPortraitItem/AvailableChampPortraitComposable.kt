@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -18,6 +20,7 @@ import com.example.hotsdraftadviser_kmp.composables.segmentedButton.SegmentedBut
 import com.example.hotsdraftadviser_kmp.dataclasses.ChampData
 import com.example.hotsdraftadviser_kmp.dataclasses.exampleChampDataAbathur
 import com.example.hotsdraftadviser_kmp.dataclasses.exampleChampDataSgtHammer
+import com.example.hotsdraftadviser_kmp.enums.PlatformType
 import com.example.hotsdraftadviser_kmp.enums.SortState
 import com.example.hotsdraftadviser_kmp.enums.TeamSide
 import kotlinx.coroutines.CoroutineScope
@@ -41,10 +44,11 @@ fun AvailableChampPortraitComposable(
     pickChampForOwnTeam: (Int, TeamSide) -> Unit,
     updateChampSearchQuery: (String) -> Unit,
     setBansPerTeam: (Int, TeamSide) -> Unit,
-    isTablets: Boolean,
+    platformType: PlatformType,
 ) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val state = rememberScrollState()
 
     Column(modifier = Modifier.fillMaxSize()) {
         SegmentedButtonToOrderChamplistComposable(
@@ -53,7 +57,7 @@ fun AvailableChampPortraitComposable(
             onButtonClick = { scrollList(listState, coroutineScope) }
         )
         LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(6.dp),
             contentPadding = PaddingValues(bottom = 180.dp),
             state = listState
@@ -82,7 +86,7 @@ fun AvailableChampPortraitComposable(
                     maxOwnScore = ownScoreMax,
                     maxTheirScore = theirScoreMax,
                     isStarRating = isStarRatingMode,
-                    isTablet = isTablets
+                    platformType = platformType
                 )
             }
         }
@@ -108,6 +112,6 @@ private fun AvailableChampPortraitComposablePreview() {
         pickChampForOwnTeam = { _, _ -> {} },
         updateChampSearchQuery = { _ -> {} },
         setBansPerTeam = { _, _ -> {} },
-        isTablets = false
+        platformType = PlatformType.ANDROID
     )
 }

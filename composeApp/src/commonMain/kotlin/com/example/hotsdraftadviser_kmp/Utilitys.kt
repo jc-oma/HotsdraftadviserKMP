@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hotsdraftadviser_kmp.enums.Difficulty
 import com.example.hotsdraftadviser_kmp.enums.GameOrigin
+import com.example.hotsdraftadviser_kmp.enums.PlatformType
 import com.example.hotsdraftadviser_kmp.enums.RoleEnum
 import hotsdraftadviser_kmp.composeapp.generated.resources.Res
 import hotsdraftadviser_kmp.composeapp.generated.resources.*
@@ -478,6 +479,14 @@ object Utilitys {
             Difficulty.MEDIUM -> Res.drawable.difficulty_medium
             Difficulty.HARD -> Res.drawable.difficulty_hard
             Difficulty.EXTREME -> Res.drawable.difficulty_extreme
+        }
+    }
+
+    fun getPlatformType(): PlatformType {
+        return when {
+            getPlatform().name.contains("android", ignoreCase = true) -> PlatformType.ANDROID
+            getPlatform().name.contains("web", ignoreCase = true) -> PlatformType.WEB
+            else -> PlatformType.OTHER
         }
     }
 

@@ -80,6 +80,7 @@ val exampleChampDataSgtHammer = ChampData(
 )
 
 val exampleChampDataAbathur = ChampData(
+    key = 2,
     ChampName = "Abathur",
     ChampRole = listOf("support"),
     ChampRoleAlt = listOf(RoleEnum.support),
@@ -111,6 +112,7 @@ val exampleChampDataAbathur = ChampData(
 )
 
 val exampleChampDataAuriel = ChampData(
+    key = 3,
     ChampName = "Auriel",
     ChampRole = listOf("heal"),
     ChampRoleAlt = listOf(RoleEnum.heal),

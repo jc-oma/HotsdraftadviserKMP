@@ -287,6 +287,31 @@ class MainViewModel() : ViewModel() {
         }
     }
 
+    //TODO when repo
+    fun incrementResetCounter() {
+    }
+    fun resetAll() {
+        viewModelScope.launch {
+            pickcounter[TeamSide.OWN] = 0
+            pickcounter[TeamSide.THEIR] = 0
+            _targetState.value = true
+            _filterMapsString.value = ""
+            _filterChampString.value = ""
+            _choosenMap.value = ""
+            _sortState.value = SortState.OWNPOINTS
+            _roleFilter.value = emptyList()
+            _allChampsData.value = _allChampsData.value.map {
+                it.copy(
+                    isPicked = false,
+                    pickedBy = TeamSide.NONE,
+                    scoreOwn = 0,
+                    scoreTheir = 0
+                )
+            }
+        }
+
+    }
+
     private suspend fun checkIfChampIsFavorite() {
         _allChampsData.value = _allChampsData.value.map { champ ->
             champ.copy(
