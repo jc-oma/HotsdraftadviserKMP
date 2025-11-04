@@ -135,7 +135,7 @@ fun App(
             Image(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillBounds,
                 painter = painterResource(
                     resource = Res.drawable.app_Background,
                 ),
