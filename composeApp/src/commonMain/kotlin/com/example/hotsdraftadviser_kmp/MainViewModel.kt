@@ -91,7 +91,7 @@ class MainViewModel() : ViewModel() {
         distinctChosableChampList
     ) { unfilteredList, distinctList ->
         val distinctChampNames = distinctList.map { it.ChampName }.toSet()
-        unfilteredList.filter {it -> it.ChampName in distinctChampNames }
+        unfilteredList.filter { it -> it.ChampName in distinctChampNames }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -290,6 +290,7 @@ class MainViewModel() : ViewModel() {
     //TODO when repo
     fun incrementResetCounter() {
     }
+
     fun resetAll() {
         viewModelScope.launch {
             pickcounter[TeamSide.OWN] = 0
@@ -377,10 +378,12 @@ class MainViewModel() : ViewModel() {
                         (champ.ChampName.contains(
                             filter,
                             ignoreCase = true
-                        ) || champ.localName!!.contains(
+                        ))//TODO
+                           /*     || champ.localName!!.contains(
                             filter,
                             ignoreCase = true
-                        )) && !champ.isPicked
+                        ))*/
+                                && !champ.isPicked
                     }
                 } else {
                     champs
