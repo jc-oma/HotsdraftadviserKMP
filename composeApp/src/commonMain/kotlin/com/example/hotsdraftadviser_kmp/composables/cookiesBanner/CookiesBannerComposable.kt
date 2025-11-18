@@ -45,17 +45,17 @@ fun CookiesBannerComposable(onClose: () -> Unit = {}) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    "JC Development built the HotsDraftAdvisor WebSite as a non-commercial WebSite. This SERVICE is provided by JC Development and is intended for use as is.\n" +
+                    "I built the HotsDraftAdvisor WebSite as a non-commercial/ non-profit WebSite. This SERVICE is provided by me and is intended for use as it is.\n" +
                             "\n" +
                             "This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.\n" +
                             "\n" +
                             "If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy.\n" +
                             "\n" +
-                            "The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at HotsDraftAdvisor unless otherwise defined in this Privacy Policy.\n" +
+                            "The terms used in this Privacy Policy have the same meanings as in my Terms and Conditions, which is accessible at HotsDraftAdvisor unless otherwise defined in this Privacy Policy.\n" +
                             "\n" +
                             "Information Collection and Use\n" +
-                            "\n" +
-                            "For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information, including but not limited to Crash WebSite report. The information that I request will be retained on your device and is not collected by me in any way.\n" +
+                            //"\n" +
+                            //"For a better experience, while using my Service, I may require you to provide us with certain personally identifiable information, including but not limited to Crash WebSite report. The information that I request will be retained on your device and is not collected by me in any way.\n" +
                             "\n" +
                             "The WebSite does use third party services that may collect information used to identify you.\n" +
                             "\n" +
@@ -63,21 +63,21 @@ fun CookiesBannerComposable(onClose: () -> Unit = {}) {
                             "\n" +
                             "Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device's internal memory.\n" +
                             "\n" +
-                            "This Service does not use these “cookies” explicitly. However, the WebSite may use third party code and libraries that use “cookies” to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.\n" +
+                            "This Service does not use these “cookies” explicitly. However, the WebSite may use third party code and libraries that use “cookies” to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse my cookies, you may not be able to use this Service.\n" +
                             "\n" +
                             "Service Providers\n" +
                             "\n" +
                             "I may employ third-party companies and individuals due to the following reasons:\n" +
                             "\n" +
-                            "To facilitate our Service;\n" +
-                            "To provide the Service on our behalf;\n" +
+                            "To facilitate my Service;\n" +
+                            "To provide the Service on my behalf;\n" +
                             "To perform Service-related services; or\n" +
-                            "To assist us in analyzing how our Service is used.\n" +
-                            "I want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.\n" +
+                            "To assist me in analyzing how my Service is used.\n" +
+                            "I want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on my behalf. However, they are obligated not to disclose or use the information for any other purpose.\n" +
                             "\n" +
                             "Security\n" +
                             "\n" +
-                            "I value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and I cannot guarantee its absolute security.\n" +
+                            "I value your trust in providing us your Personal Information, thus I am striving to use acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and I cannot guarantee its absolute security.\n" +
                             "\n" +
                             "Links to Other Sites\n" +
                             "\n" +
@@ -85,11 +85,11 @@ fun CookiesBannerComposable(onClose: () -> Unit = {}) {
                             "\n" +
                             "Children’s Privacy\n" +
                             "\n" +
-                            "These Services do not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children under 13. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact me so that I will be able to do necessary actions.\n" +
+                            "These Services do not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children under 13. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from my servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact me so that I will be able to do necessary actions.\n" +
                             "\n" +
                             "Changes to This Privacy Policy\n" +
                             "\n" +
-                            "I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.\n" +
+                            "I may update my Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.\n" +
                             "\n" +
                             "Contact Us\n" +
                             "\n" +

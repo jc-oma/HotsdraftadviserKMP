@@ -17,16 +17,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hotsdraftadviser_kmp.composeapp.generated.resources.Res
-import hotsdraftadviser_kmp.composeapp.generated.resources.qrcode_to_app
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import hotsdraftadviser_kmp.composeapp.generated.resources.qrcode_to_pool
 
 @Preview
 @Composable
-fun GooglePlayLinkImage() {
+fun PayPalPoolLink() {
     val uriHandler = LocalUriHandler.current
-    val playStoreUrl =
-        "https://play.google.com/store/apps/details?id=com.jcdevelopment.hotsdraftadviser"
     val paypalPoolLink = "https://www.paypal.com/pools/c/9k9v9FP5AI"
 
     Column {
@@ -36,20 +34,20 @@ fun GooglePlayLinkImage() {
                 .padding(16.dp)
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable {
-                uriHandler.openUri(playStoreUrl)
-            }, text = "Get the mobile App", fontSize = 20.sp,
+                    uriHandler.openUri(paypalPoolLink)
+                }, text = "Support hosting costs", fontSize = 20.sp,
             textDecoration = TextDecoration.Underline, color = Color.White
         )
         // 2. Das Image Composable
         Image(
-            painter = painterResource(Res.drawable.qrcode_to_app),
-            contentDescription = "Get it on Google Play",
+            painter = painterResource(Res.drawable.qrcode_to_pool),
+            contentDescription = "Support me with bill",
             modifier = Modifier
                 .size(width = 160.dp, height = 160.dp)
                 .padding(16.dp)
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable {
-                    uriHandler.openUri(playStoreUrl)
+                    uriHandler.openUri(paypalPoolLink)
                 }
         )
     }

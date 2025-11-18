@@ -44,6 +44,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hotsdraftadviser_kmp.Utilitys.getPlatformType
 import com.example.hotsdraftadviser_kmp.composables.GooglePlayLinkImage
 import com.example.hotsdraftadviser_kmp.composables.MenuComposable
+import com.example.hotsdraftadviser_kmp.composables.PayPalPoolLink
 import com.example.hotsdraftadviser_kmp.composables.champListPortraitItem.AvailableChampListComposable
 import com.example.hotsdraftadviser_kmp.composables.champListPortraitItem.AvailableChampPortraitComposable
 import com.example.hotsdraftadviser_kmp.composables.champListPortraitItem.AvailableWebChampListComposable
@@ -150,7 +151,10 @@ fun App(
                 contentDescription = "background"
             )
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomStart) {
-                GooglePlayLinkImage()
+                Column {
+                    PayPalPoolLink()
+                    GooglePlayLinkImage()
+                }
             }
             if (isCookieBanner) {
                 SharedTransitionLayout {
