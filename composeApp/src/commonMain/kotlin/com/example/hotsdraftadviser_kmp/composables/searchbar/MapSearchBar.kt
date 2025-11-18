@@ -28,7 +28,7 @@ fun MapSearchBar(
     label: String
 ) {
     TextField(
-        modifier = modifier.padding(start = 8.dp, end = 8.dp)
+        modifier = modifier.padding( start = 160.dp, end = 160.dp)
             .border(1.dp, Color.Gray, RoundedCornerShape(50)),
         value = searchQuery,
         onValueChange = { newText ->

@@ -41,7 +41,8 @@ fun SearchAndFilterRowForChampsSmall(
 ) {
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding( start = 160.dp, end = 160.dp),
             verticalAlignment = Alignment.Bottom
         ) {
             ChampSearchBar(
@@ -52,6 +53,7 @@ fun SearchAndFilterRowForChampsSmall(
             )
         }
         Column(
+            modifier = Modifier.padding(start = 160.dp, end = 160.dp),
             verticalArrangement = Arrangement.Top
         ) {
             val imagePadding = 8.dp
@@ -176,24 +178,6 @@ fun SearchAndFilterRowForChampsSmall(
                     },
                     selected = roleFilter.contains(RoleEnum.support),
                     onClick = { setRoleFilter(RoleEnum.support) },
-                    label = {}
-                )
-                FilterChip(
-                    modifier = modifier,
-                    leadingIcon = {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = (Icons.Filled.Favorite),
-                                contentDescription = "Heart",
-                                modifier = modifierIcon
-                            )
-                        }
-                    },
-                    selected = favFilter,
-                    onClick = { toggleFavFilter() },
                     label = {}
                 )
             }

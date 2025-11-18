@@ -1,5 +1,9 @@
 package com.example.hotsdraftadviser_kmp.pickedChamps
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -28,6 +32,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.max
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListOfPickedChampsComposable(
     ownPickedChamps: List<ChampData>,
@@ -42,14 +47,18 @@ fun ListOfPickedChampsComposable(
     val ownScorePercent = max((ownPickScore.toFloat() / aggrScore.toFloat() * 100).toInt(), 0)
     val theirScorePercent = max((theirPickScore.toFloat() / aggrScore.toFloat() * 100).toInt(), 0)
 
-    Column() {
+    Column(
+        modifier = Modifier.padding(start = 160.dp, end = 160.dp)
+    ) {
         LazyColumn {
-            items(ownPickedChamps.size.coerceAtLeast(theirPickedChamps.size)) { i ->
-                Row(modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)) {
+            items(ownPickedChamps.size.coerceAtLeast(theirPickedChamps.size), key = { it }) { i ->
+                Row(
+                    modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface)
+                ) {
                     if (ownPickedChamps.size > i) {
                         PickedChampItem(
-                            Color.Blue,
-                            composeTextColor,
+                            teamColor = Color.Blue,
+                            textColor = composeTextColor,
                             removePickForTeam = { removePick(i, TeamSide.OWN) },
                             teamPickedChamp = ownPickedChamps[i],
                             painter = painterResource(
@@ -103,21 +112,24 @@ fun ListOfPickedChampsComposable(
                         .padding(end = 8.dp),
                     text = ownScorePercent.toString(),
                     textAlign = TextAlign.Right,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
                 Text(
                     modifier = Modifier.weight(0.5f)
                         .padding(start = 8.dp),
                     text = "VS",
                     textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
                 Text(
                     modifier = Modifier.weight(1f)
                         .padding(start = 8.dp),
                     text = theirScorePercent.toString(),
                     textAlign = TextAlign.Left,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
             }
         }

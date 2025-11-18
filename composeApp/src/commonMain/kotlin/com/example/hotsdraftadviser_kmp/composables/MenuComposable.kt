@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -32,7 +33,7 @@ fun MenuComposable(
     var expanded by remember { mutableStateOf(false) }
     Box() {
         IconButton(onClick = { expanded = !expanded }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            Icon(Icons.Default.MoreVert, contentDescription = "More options", tint = Color.White)
         }
         DropdownMenu(
             expanded = expanded,

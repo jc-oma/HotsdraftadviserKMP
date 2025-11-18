@@ -49,6 +49,7 @@ class MainViewModel() : ViewModel() {
     private val _sortState = MutableStateFlow<SortState>(SortState.OWNPOINTS)
     private val _roleFilter = MutableStateFlow<List<RoleEnum>>(emptyList())
     private val _favFilter = MutableStateFlow<Boolean>(false)
+    private val _isCookieBanner = MutableStateFlow<Boolean>(false)
     private val maxPicks = 5
     private var pickcounter: MutableMap<TeamSide, Int> =
         mutableMapOf(TeamSide.OWN to 0, TeamSide.THEIR to 0)
@@ -62,6 +63,7 @@ class MainViewModel() : ViewModel() {
     val isStarRatingMode: StateFlow<Boolean> = _isStarRatingMode.asStateFlow()
 
     val favFilter: StateFlow<Boolean> = _favFilter.asStateFlow()
+    val isCookieBanner: StateFlow<Boolean> = _isCookieBanner.asStateFlow()
 
     val targetState: StateFlow<Boolean> = _targetState
 
@@ -157,6 +159,12 @@ class MainViewModel() : ViewModel() {
     fun toggleDisclaymer() {
         viewModelScope.launch {
             _isDisclaymerShown.value = !_isDisclaymerShown.value
+        }
+    }
+
+    fun toggleCookieBanner() {
+        viewModelScope.launch {
+            _isCookieBanner.value = !_isCookieBanner.value
         }
     }
 
@@ -275,7 +283,7 @@ class MainViewModel() : ViewModel() {
         viewModelScope.launch {
             val currentChampList = _distinctchoosableChampList.first()
             val bannedChamp = currentChampList[i].copy(isPicked = true)
-            updateChampDataWithPickStatus(bannedChamp, true, teamSide)
+            updateChampDataWithPickStatus(bannedChamp)
         }
     }
 
@@ -323,15 +331,16 @@ class MainViewModel() : ViewModel() {
     }
 
     private fun updateChampDataWithPickStatus(
-        champ: ChampData,
-        isPicked: Boolean,
-        teamSide: TeamSide
+        champ: ChampData
     ) {
         val currentChampData = _allChampsData.value.toMutableList()
         val indexInAllChamps = currentChampData.indexOfFirst { it.ChampName == champ.ChampName }
+        val indexIfChogal = currentChampData.indexOfLast { it.ChampName == champ.ChampName }
         if (indexInAllChamps != -1) {
             currentChampData[indexInAllChamps] =
-                currentChampData[indexInAllChamps].copy(isPicked = isPicked)
+                currentChampData[indexInAllChamps].copy(isPicked = true)
+            currentChampData[indexIfChogal] =
+                currentChampData[indexInAllChamps].copy(isPicked = true)
             _allChampsData.value = currentChampData.toList()
         }
     }

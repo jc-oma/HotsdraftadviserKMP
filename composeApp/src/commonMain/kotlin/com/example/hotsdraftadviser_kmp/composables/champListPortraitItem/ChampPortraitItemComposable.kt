@@ -53,6 +53,7 @@ import kotlin.math.max
 
 @Composable
 fun ChampPortraitItemComposable(
+    modifier: Modifier = Modifier,
     champ: ChampData,
     toggleChampFavorite: () -> Unit,
     pickChampForOwnTeam: () -> Unit,
@@ -77,14 +78,15 @@ fun ChampPortraitItemComposable(
     val composeBoarderColor = getColorByHexString(boardercolor)
     var fav by remember { mutableStateOf(champ.isAFavoriteChamp) }
     val scoreOwnPercent = max((champ.scoreOwn.toFloat() / maxOwnScore.toFloat() * 100).toInt(), 0)
-    val scoreTheirPercent =
-        max((champ.scoreTheir.toFloat() / maxTheirScore.toFloat() * 100).toInt(), 0)
+    val scoreTheirPercent = max((champ.scoreTheir.toFloat() / maxTheirScore.toFloat() * 100).toInt(), 0)
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
+            .background(Color.LightGray)
             .heightIn(min = (LocalWindowInfo.current.containerSize.width / 7f).dp)
-            .background(composeScreenBackgroundColor)
+            .background(composeScreenBackgroundColor,
+                    shape = RoundedCornerShape(16.dp))
     ) {
 
         IconToggleButton(
@@ -97,10 +99,6 @@ fun ChampPortraitItemComposable(
                 .align(Alignment.TopEnd)
                 .padding(end = 6.dp)
         ) {
-            Icon(
-                imageVector = if (fav) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                contentDescription = if (fav) "Remove from favorites" else "Add to favorites"
-            )
         }
         Row {
             Box(
@@ -113,23 +111,19 @@ fun ChampPortraitItemComposable(
                     )
             ) {
                 val imageModifier = Modifier
-                    .fillMaxSize()
                     .clip(RoundedCornerShape(4.dp))
-                    //TODO
                     .clickable {print("Click on the Buttons next to the Champ")}
 
                 Image(
                     modifier = if (platformType == PlatformType.WEB) Modifier
-                        .fillMaxSize()
                         .clip(RoundedCornerShape(4.dp))
                         //TODO
                         .clickable {print("Click on the Buttons next to the Champ")}
                     else  imageModifier
-                        .height(LocalWindowInfo.current.containerSize.height.dp / 15f)
                         .clip(RoundedCornerShape(4.dp))
                         //TODO
                         .clickable {print("Click on the Buttons next to the Champ")},
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     painter = painterResource(resource = champDrawable),
                     contentDescription = champ.ChampName
                 )
@@ -174,8 +168,7 @@ fun ChampPortraitItemComposable(
                 }
                 Box(
                     modifier = Modifier
-                        .padding(end = 8.dp, bottom = 8.dp)
-                        .fillMaxSize(),
+                        .padding(end = 8.dp, bottom = 8.dp),
                     contentAlignment = Alignment.BottomStart
                 ) {
                     val spacerHeight = if (platformType == PlatformType.WEB) 8.dp else 2.dp
@@ -211,7 +204,6 @@ fun ChampPortraitItemComposable(
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(2.dp)
-                                    .fillMaxSize()
                                     .background(
                                         Color.Blue.copy(alpha = 0.7f),
                                         shape = RoundedCornerShape(4.dp)
@@ -245,7 +237,6 @@ fun ChampPortraitItemComposable(
                                 modifier = Modifier
                                     .weight(1f)
                                     .padding(2.dp)
-                                    .fillMaxSize()
                                     .background(
                                         Color.Red.copy(alpha = 0.7f),
                                         shape = RoundedCornerShape(4.dp)
@@ -279,7 +270,6 @@ fun ChampPortraitItemComposable(
                                 modifier = Modifier
                                     .weight(0.5f)
                                     .padding(2.dp)
-                                    .fillMaxSize()
                                     .background(
                                         Color.Blue.copy(alpha = 0.7f),
                                         shape = RoundedCornerShape(4.dp)
@@ -307,7 +297,6 @@ fun ChampPortraitItemComposable(
                                 modifier = Modifier
                                     .weight(0.5f)
                                     .padding(2.dp)
-                                    .fillMaxSize()
                                     .background(
                                         Color.Red.copy(alpha = 0.7f),
                                         shape = RoundedCornerShape(4.dp)

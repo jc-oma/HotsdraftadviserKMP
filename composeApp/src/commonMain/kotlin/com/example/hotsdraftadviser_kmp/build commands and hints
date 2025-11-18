@@ -5,7 +5,7 @@ Terminal:
 ./gradlew wasmJsBrowserDistribution
 
 Once the application task completes, you can find the generated artifacts in
-\IdeaProjects\HotsdraftadviserKMP\composeApp\build\dist\wasmJs\productionExecutable
+C:\Users\junky\IdeaProjects\HotsdraftadviserKMP\composeApp\build\dist\wasmJs\productionExecutable
 
 
 Drawables:

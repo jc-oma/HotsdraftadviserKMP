@@ -1,5 +1,6 @@
 package com.example.hotsdraftadviser_kmp.pickedChamps
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,11 +42,12 @@ fun RowScope.PickedChampItem(
     textColor: Color,
     removePickForTeam: () -> Unit,
     teamPickedChamp: ChampData,
-    painter: Painter
+    painter: Painter,
+    modifier: Modifier = Modifier
 ) {
     val height = 32.dp
     Box(
-        modifier = Modifier
+        modifier = modifier
             .weight(1f)
             .padding(2.dp)
             .heightIn(min = height)

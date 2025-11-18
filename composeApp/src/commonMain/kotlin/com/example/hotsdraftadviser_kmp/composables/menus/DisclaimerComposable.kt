@@ -27,6 +27,9 @@ fun DisclaimerComposable(onClose: () -> Unit = {}) {
             // TODO stringResource(id = R.string.disclaimer)
             text = "Heroes of the Storm™ is a trademark or registered trademark of Blizzard Entertainment, Inc., in the U.S. and/or other countries. HotsDraftAdviser is not associated with or endorsed by Blizzard Entertainment."
         )
+        Text(
+            modifier = Modifier.padding(18.dp),
+            text = "Android is a trademark of Google LLC.")
         Button(
             onClick = { onClose() },
         ) {
