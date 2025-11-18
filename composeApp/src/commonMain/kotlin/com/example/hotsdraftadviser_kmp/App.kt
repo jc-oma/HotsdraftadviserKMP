@@ -22,7 +22,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,15 +33,19 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.hotsdraftadviser_kmp.Utilitys.getPlatformType
 import com.example.hotsdraftadviser_kmp.composables.GooglePlayLinkImage
+import com.example.hotsdraftadviser_kmp.composables.ImpressumComposable
 import com.example.hotsdraftadviser_kmp.composables.MenuComposable
 import com.example.hotsdraftadviser_kmp.composables.PayPalPoolLink
 import com.example.hotsdraftadviser_kmp.composables.champListPortraitItem.AvailableChampListComposable
@@ -61,10 +64,7 @@ import com.example.hotsdraftadviser_kmp.filter.SearchAndFilterRowForChampsSmall
 import com.example.hotsdraftadviser_kmp.pickedChamps.ListOfPickedChampsComposable
 import hotsdraftadviser_kmp.composeapp.generated.resources.Res
 import hotsdraftadviser_kmp.composeapp.generated.resources.app_Background
-import hotsdraftadviser_kmp.composeapp.generated.resources.app_name
-import hotsdraftadviser_kmp.composeapp.generated.resources.qrcode_to_app
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -92,17 +92,9 @@ fun App(
 
     val screenBackgroundColor = "150e35ff"
     val textColor = "f8f8f9ff"
-    val headlineColor = "6e35d8ff"
-    val theirTeamColor = "5C1A1BFF"
-    val ownTeamColor = "533088ff"
     val mapTextColor = "AFEEEEff"
     val composeTextColor = getColorByHexString(textColor)
-    val composeHeadlineColor = getColorByHexString(headlineColor)
-    val composeOwnTeamColor = getColorByHexString(ownTeamColor)
-    val composeTheirTeamColor = getColorByHexStringForET(theirTeamColor)
     val composeMapTextColor = getColorByHexStringForET(mapTextColor)
-
-    var detectedObjectLabels by remember { mutableStateOf<List<String>>(emptyList()) }
 
     var targetStateMapName by remember { mutableStateOf<String>("") }
 
@@ -112,9 +104,7 @@ fun App(
     val isStarRatingMode by viewModel.isStarRatingMode.collectAsState()
 
     val isCookieBanner by viewModel.isCookieBanner.collectAsState()
-
-    val showContent by viewModel.showContent.collectAsState()
-    val champData by viewModel.champData.collectAsState()
+    val isLegalNotice by viewModel.isLegalNotice.collectAsState()
 
     val platformType = remember { getPlatformType() }
     val modifier = Modifier
@@ -140,7 +130,6 @@ fun App(
         }
     ) { innerPadding ->
         MaterialTheme {
-            //Text(stringResource( Res.string.app_name))
             Image(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -154,6 +143,33 @@ fun App(
                 Column {
                     PayPalPoolLink()
                     GooglePlayLinkImage()
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                            .pointerHoverIcon(PointerIcon.Hand)
+                            .clickable{viewModel.toggleLegalNotice()},
+                        text = "legal notice",
+                        textDecoration = TextDecoration.Underline,
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                            .pointerHoverIcon(PointerIcon.Hand)
+                            .clickable{viewModel.toggleLegalNotice()},
+                        text = "privacy policy",
+                        textDecoration = TextDecoration.Underline,
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                            .pointerHoverIcon(PointerIcon.Hand)
+                            .clickable{viewModel.toggleLegalNotice()},
+                        text = "disclaimer",
+                        textDecoration = TextDecoration.Underline,
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
                 }
             }
             if (isCookieBanner) {
@@ -172,10 +188,6 @@ fun App(
                         ) {
                             Box(modifier = Modifier.height(52.dp))
 
-                            //TODO
-                            //--- AdBanners here ---
-                            //MainWindowAdBanner()
-
                             if (targetState) {
                                 Column(modifier = Modifier.wrapContentSize())
                                 {
@@ -186,7 +198,6 @@ fun App(
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Text(
-                                            //text = stringResource(Res.string.main_activity_chose_map),
                                             text = "Please chose your map first:",
                                             color = Color.White,
                                             fontSize = 18.sp,
@@ -298,10 +309,6 @@ fun App(
                                                                 modifier = Modifier
                                                                     .fillMaxWidth(),
                                                                 text = map,
-                                                                /*stringResource(
-                                                                                                           mapMapNameToStringRessource(
-                                                                                                               map
-                                                                                                           )!!)*/
                                                                 color = Color.White,
                                                                 fontSize = 14.sp,
                                                                 textAlign = TextAlign.Center,
@@ -420,24 +427,6 @@ fun App(
                                     .height(10.dp)
                             ) { }
 
-                            //Composable um das tracken der Champs mit der Videostream zu testen
-                            /*if (isStreamingEnabled) {
-                            VideoStreamComposable()
-                        }*/
-
-                            //Composable um das tracken der Champs mit der Kamera zu testen
-                            /*CameraComposable(
-                    onObjectsDetected = { labels -> detectedObjectLabels = labels }
-                )
-
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = if (detectedObjectLabels.isNotEmpty()) {
-                        "Zuletzt erkannte Objekte: ${detectedObjectLabels.joinToString(", ")}"
-                    } else {
-                        "Keine Objekte erkannt."
-                    }
-                )*/
 
                             if (choosenMap.isNotEmpty()) {
                                 if (!(theirPickedChamps.isEmpty() && ownPickedChamps.isEmpty())) {
@@ -642,6 +631,10 @@ fun App(
                                     modifier = Modifier.fillMaxSize(),
                                     onClose = { viewModel.toggleTutorial() })
                             }
+                        }
+
+                        if (isLegalNotice) {
+                            ImpressumComposable(onClose = {viewModel.toggleLegalNotice()})
                         }
                     }
                 }

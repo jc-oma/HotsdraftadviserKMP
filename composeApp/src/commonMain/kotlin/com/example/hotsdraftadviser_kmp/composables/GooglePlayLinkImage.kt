@@ -33,7 +33,7 @@ fun GooglePlayLinkImage() {
         Text(
             modifier = Modifier
                 .width(160.dp)
-                .padding(16.dp)
+                .padding(top = 32.dp, bottom = 6.dp, start = 16.dp, end = 16.dp)
                 .pointerHoverIcon(PointerIcon.Hand)
                 .clickable {
                 uriHandler.openUri(playStoreUrl)

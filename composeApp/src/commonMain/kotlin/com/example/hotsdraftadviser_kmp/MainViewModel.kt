@@ -50,6 +50,9 @@ class MainViewModel() : ViewModel() {
     private val _roleFilter = MutableStateFlow<List<RoleEnum>>(emptyList())
     private val _favFilter = MutableStateFlow<Boolean>(false)
     private val _isCookieBanner = MutableStateFlow<Boolean>(false)
+    private val _isLegalNotice = MutableStateFlow<Boolean>(false)
+    private val _isPrivacyPolicy = MutableStateFlow<Boolean>(false)
+    private val _isDisclaimer = MutableStateFlow<Boolean>(false)
     private val maxPicks = 5
     private var pickcounter: MutableMap<TeamSide, Int> =
         mutableMapOf(TeamSide.OWN to 0, TeamSide.THEIR to 0)
@@ -64,6 +67,7 @@ class MainViewModel() : ViewModel() {
 
     val favFilter: StateFlow<Boolean> = _favFilter.asStateFlow()
     val isCookieBanner: StateFlow<Boolean> = _isCookieBanner.asStateFlow()
+    val isLegalNotice: StateFlow<Boolean> = _isLegalNotice.asStateFlow()
 
     val targetState: StateFlow<Boolean> = _targetState
 
@@ -159,6 +163,12 @@ class MainViewModel() : ViewModel() {
     fun toggleDisclaymer() {
         viewModelScope.launch {
             _isDisclaymerShown.value = !_isDisclaymerShown.value
+        }
+    }
+
+    fun toggleLegalNotice() {
+        viewModelScope.launch {
+            _isLegalNotice.value = !_isLegalNotice.value
         }
     }
 
