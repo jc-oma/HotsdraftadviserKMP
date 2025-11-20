@@ -1,4 +1,12 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+This is an open source project tool to support drafting in the moba game Heroes of the Storm™.
+
+Try here:
+https://jc-oma.github.io/heroesDraftAdviser/index.html
+
+Heroes of the Storm™ is a trademark or registered trademark of Blizzard Entertainment, Inc., in the U.S. and/or other countries.
+I'm not associated with or endorsed by Blizzard Entertainment.
+
+
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
