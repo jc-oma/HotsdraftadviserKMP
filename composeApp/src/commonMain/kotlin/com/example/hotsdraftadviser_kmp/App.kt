@@ -141,7 +141,6 @@ fun App(
             )
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomStart) {
                 Column {
-                    PayPalPoolLink()
                     GooglePlayLinkImage()
                     Text(
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)

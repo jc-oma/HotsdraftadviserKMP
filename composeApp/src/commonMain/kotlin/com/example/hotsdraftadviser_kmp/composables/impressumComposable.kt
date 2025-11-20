@@ -44,11 +44,11 @@ fun ImpressumComposable(color: Color = Color.Black, onClose: () -> Unit = {}) {
                 textDecoration = TextDecoration.Underline,
                 fontSize = 20.sp
             )
-            Text("", color = color)
+            Text("JC", color = color)
             Row {
                 Text("E-Mail: ", color = color)
                 Text(
-                    modifier = Modifier.clickable(onClick = { email = "" }),
+                    modifier = Modifier.clickable(onClick = { email = "spookyhalloweenapp@gmail.com" }),
                     textDecoration = TextDecoration.Underline,
                     text = email,
                     color = color
@@ -70,7 +70,7 @@ fun ImpressumComposable(color: Color = Color.Black, onClose: () -> Unit = {}) {
             Button(
                 onClick = { onClose() },
             ) {
-                Text("close")
+                Text("back")
             }
         }
     }

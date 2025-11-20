@@ -48,7 +48,6 @@ fun AvailableChampPortraitComposable(
 ) {
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    val state = rememberScrollState()
 
     Column(modifier = Modifier.fillMaxSize()) {
         SegmentedButtonToOrderChamplistComposable(
@@ -65,9 +64,6 @@ fun AvailableChampPortraitComposable(
             items(
                 count = distinctChosableChampList.size,
                 key = { it -> distinctChosableChampList[it].key }) { i ->
-                //TODO hier drunter manchmal out of bounds Exception
-                val currentChamp = distinctChosableChampList[i]
-                val currentChampUnfilt = distinctAndUnfilteredChosableChampList[i]
 
                 ChampPortraitItemComposable(
                     champ = distinctChosableChampList[i],
